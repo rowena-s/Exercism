@@ -31,6 +31,14 @@ class IsbnVerifier
     end
 
     def self.to_isbn13(isbn)
-      
+      return if not isbn.valid?
+      new_isbn = "978"+ isbn.chop()
+      sum =0
+      checknums = [1,3] *6
+      new_isbn.zip(checknums) do | num, checknum|
+        sum += (num * checknum)
+      end
+      checkdigit = 10 - (sum % 10)
+      return new_isbn + checkdigit.to_s
     end  
 end 
